@@ -1,15 +1,15 @@
 const path = require("path");
-
 require("dotenv").config();
 
 const {
   DATABASE_URL = "postgresql://postgres@localhost/postgres",
+  NODE_ENV = "development",
 } = process.env;
 
 module.exports = {
   development: {
-    client: "postgresql",
-    connection: DATABASE_URL,
+    client: "pg",
+    connection: DATABASE_URL,  // 本地用自己的 PostgreSQL
     pool: { min: 0, max: 5 },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
@@ -17,31 +17,26 @@ module.exports = {
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
-    ssl: {
-      rejectUnauthorized: false // This will allow connections without requiring SSL certificates to be valid.
-    }
   },
 
   production: {
-    client: "postgresql",
-    connection: DATABASE_URL,
-    pool: { min: 0, max: 5 },
+    client: "pg",
+    connection: {
+      connectionString: DATABASE_URL,
+      ssl: { rejectUnauthorized: false },  // Render 需要 SSL
+    },
+    pool: { min: 2, max: 10 },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
-    ssl: {
-      rejectUnauthorized: false // This will allow connections without requiring SSL certificates to be valid.
-    }
   },
 
   test: {
     client: "sqlite3",
-    connection: {
-      filename: ":memory:",
-    },
+    connection: { filename: ":memory:" },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
