@@ -5,7 +5,7 @@ This is the backend server for the **WeLoveMovies** application, a project built
 This project implements a RESTful API to handle data requests for movies, theaters, and reviews. It is built with **Node.js**, **Express**, and **Knex.js**, connecting to a **PostgreSQL** database.
 
 ## 🚀 Live Links
-
+- **Frontend Github:**  https://github.com/Ying-Fiona-Zhou/starter-movie-front-end
 - **Backend API (Deployed):** <https://welovemovies-end.onrender.com>
 - **Frontend Application (Deployed):** <https://welovemovies-front-s9t5.onrender.com>
 
