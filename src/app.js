@@ -1,4 +1,7 @@
-
+// src/app.js  顶部
+const { TextEncoder, TextDecoder } = require("util");
+if (typeof global.TextEncoder === "undefined") global.TextEncoder = TextEncoder;
+if (typeof global.TextDecoder === "undefined") global.TextDecoder = TextDecoder;
 
 // 仅在本地开发时加载 .env（Thinkful 模板常用）
 if (process.env.USER) require("dotenv").config();
