@@ -17,7 +17,7 @@ const reduceMovies = reduceProperties("theater_id", {
 });
 
 async function list(request, response) {
-  // TODO: Add your code here
+  
    const { movieId } = request.params;
 
   // Case 1: /movies/:movieId/theaters

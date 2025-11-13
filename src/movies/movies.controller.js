@@ -1,7 +1,7 @@
 const service = require("./movies.service");
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
-// 检查 :movieId 是否存在
+// check :movieId if exist
 async function movieExists(req, res, next) {
   const { movieId } = req.params;
   const movie = await service.read(Number(movieId));
@@ -33,6 +33,6 @@ async function list(req, res) {
 module.exports = {
   list: [asyncErrorBoundary(list)],
   read: [asyncErrorBoundary(movieExists), asyncErrorBoundary(read)],
-  // 若子路由需要验证 movie 是否存在，可以导出该中间件：
+  // // Export this middleware if child routes need to validate the existence of a movie.
   movieExists: [asyncErrorBoundary(movieExists)],
 };

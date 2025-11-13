@@ -9,7 +9,7 @@ const {
 module.exports = {
   development: {
     client: "pg",
-    connection: DATABASE_URL,  // 本地用自己的 PostgreSQL
+    connection: DATABASE_URL,  // local PostgreSQL
     pool: { min: 0, max: 5 },
     migrations: {
       directory: "./src/db/migrations",
@@ -23,7 +23,7 @@ module.exports = {
     client: "pg",
     connection: {
       connectionString: DATABASE_URL,
-      ssl: { rejectUnauthorized: false },  // Render 需要 SSL
+      ssl: { rejectUnauthorized: false },  // Render need SSL
     },
     pool: { min: 2, max: 10 },
     migrations: {

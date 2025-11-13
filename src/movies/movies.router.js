@@ -5,7 +5,7 @@ const methodNotAllowed = require("../errors/methodNotAllowed");
 const reviewsRouter = require("../reviews/reviews.router");
 const theatersRouter = require("../theaters/theaters.router");
 
-// TODO: Add your routes here
+
 // /movies
 router
   .route("/")

@@ -1,6 +1,6 @@
 const knex = require("../db/connection");
 
-// /theaters -> 返回行，用 reduceProperties 聚合为 movies 数组（controller 里做）
+// /theaters -> Return rows, aggregated into a 'movies' array using reduceProperties (done in the controller)
 function listWithMovies() {
   return knex("theaters as t")
     .leftJoin("movies_theaters as mt", "t.theater_id", "mt.theater_id")
@@ -30,7 +30,7 @@ function listWithMovies() {
     .orderBy("t.theater_id");
 }
 
-// /movies/:movieId/theaters -> 扁平列表（包含 is_showing, movie_id）
+// /movies/:movieId/theaters -> Flat list (includes is_showing and movie_id)
 function listByMovie(movieId) {
   return knex("theaters as t")
     .join("movies_theaters as mt", "t.theater_id", "mt.theater_id")

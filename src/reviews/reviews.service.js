@@ -2,31 +2,31 @@
 const db = require("../db/connection");
 const tableName = "reviews";
 
-// 删除一条评论
+// delete a review
 function destroy(reviewId) {
   return db(tableName).where({ review_id: Number(reviewId) }).del();
 }
 
-// 读取单条评论（不带 critic）
+// Read a single review (without the critic details)
 function read(reviewId) {
   return db(tableName).select("*").where({ review_id: Number(reviewId) }).first();
 }
 
-// 读取 critic
+// read critic
 function readCritic(critic_id) {
   return db("critics").where({ critic_id: Number(critic_id) }).first();
 }
 
-// 给 review 嵌套 critic
+// Nest critic details into the review object
 async function setCritic(review) {
   if (!review) return review;
   review.critic = await readCritic(review.critic_id);
   return review;
 }
 
-// 更新评论（只需确保返回带 critic 的完整对象）
+// Update the review (must ensure the complete object with nested critic is returned)
 async function update(review) {
-  // 只更新允许的字段，并刷新 updated_at
+  // Only update allowed fields and refresh the updated_at timestamp
   const patch = {
     content: review.content,
     score: review.score,
@@ -35,13 +35,13 @@ async function update(review) {
 
   await db(tableName).where({ review_id: Number(review.review_id) }).update(patch);
 
-  // 返回带 critic 的完整对象
+  // Return the complete object with nested critic details
   return readWithCritic(review.review_id);
 }
 
 /**
- * 列出某电影的所有评论（每条嵌套 critic）
- * 符合 GET /movies/:movieId/reviews 的返回结构
+ * Lists all reviews for a movie (with nested critic details for each)
+ * Matches the required return structure for GET /movies/:movieId/reviews
  */
 function listByMovieId(movie_id) {
   return db("reviews as r")
@@ -84,8 +84,8 @@ function listByMovieId(movie_id) {
 }
 
 /**
- * 读取单条评论并嵌套 critic
- * 符合 PUT /reviews/:reviewId 的返回结构
+ * Reads a single review and nests the critic details
+ * Matches the required return structure for PUT /reviews/:reviewId
  */
 async function readWithCritic(reviewId) {
   const row = await db("reviews as r")
@@ -129,16 +129,16 @@ async function readWithCritic(reviewId) {
   };
 }
 
-// 为了兼容你之前的接口名，这里把 list 定义为别名；测试会调用 listByMovieId
+// For compatibility with your previous controller's name, 'list' is an alias; tests will call listByMovieId
 function list(movie_id) {
   return listByMovieId(movie_id);
 }
 
 module.exports = {
   destroy,
-  list,            // 兼容你原来的控制器
-  listByMovieId,   // 满足测试
+  list,            // For controller compatibility
+  listByMovieId,   // For testing
   read,
-  readWithCritic,  // 满足测试（PUT 返回）
+  readWithCritic,  // For testing (PUT return value)
   update,
 };
